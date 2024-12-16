@@ -1,0 +1,126 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "BigIntegerOperations",
+      "request": "launch",
+      "mainClass": "BigIntegerOperations",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "RecurseTest",
+      "request": "launch",
+      "mainClass": "RecurseTest",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task0",
+      "request": "launch",
+      "mainClass": "Task0",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task1",
+      "request": "launch",
+      "mainClass": "Task1",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task2",
+      "request": "launch",
+      "mainClass": "Task2",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task3a",
+      "request": "launch",
+      "mainClass": "Task3a",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task3b",
+      "request": "launch",
+      "mainClass": "Task3b",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task4a",
+      "request": "launch",
+      "mainClass": "Task4a",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task4b",
+      "request": "launch",
+      "mainClass": "Task4b",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task4c",
+      "request": "launch",
+      "mainClass": "Task4c",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task4d",
+      "request": "launch",
+      "mainClass": "Task4d",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task4e",
+      "request": "launch",
+      "mainClass": "Task4e",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Task4f",
+      "request": "launch",
+      "mainClass": "Task4f",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "TestAssignment2",
+      "request": "launch",
+      "mainClass": "TestAssignment2",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "TestDecimalNumber",
+      "request": "launch",
+      "mainClass": "TestDecimalNumber",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "Tomer_Tester_Ass2",
+      "request": "launch",
+      "mainClass": "Tomer_Tester_Ass2",
+      "projectName": "JavaPlayground_9d4334c"
+    }
+  ]
+}

@@ -55,7 +55,7 @@ public class DecimalNumber {
     public String toString() {
         String ans = "";
         // ---------------write your code BELOW this line only! ------------------
-
+        ans = this.decimalValue;
         // ---------------write your code ABOVE this line only! ------------------
         return ans;
     }
@@ -67,7 +67,13 @@ public class DecimalNumber {
     public boolean equals(Object other) {
         boolean equals = false;
         // ---------------write your code BELOW this line only! ------------------
-
+        if (other == null) {
+            return false;
+        }
+        if (other instanceof DecimalNumber) {
+            DecimalNumber otherNum = (DecimalNumber) other;
+            equals = this.decimalValue.equals(otherNum.decimalValue);
+        }
         // ---------------write your code ABOVE this line only! ------------------
         return equals;
     }
@@ -164,14 +170,15 @@ public class DecimalNumber {
         // ---------------write your code BELOW this line only! ------------------
         if (s.length() == 0) {
             if (carry == 1) {
-                ans = "1";
-            } else {
-                ans = "";
+                return "1";
             }
-        } else if ((toInt(s.charAt(0)) * 2) + carry > 9) {
-            ans = "0" + decimalDouble(s.substring(1), 1);
+            return "";
+        }
+        int mul = (toInt(s.charAt(0)) * 2);
+        if (mul + carry > 9) {
+            ans = (mul + "").charAt(1) + decimalDouble(s.substring(1), 1);
         } else {
-            ans = (toInt(s.charAt(0)) * 2) + carry + decimalDouble(s.substring(1), 0);
+            ans = (mul + carry + "").charAt(0) + decimalDouble(s.substring(1), 0);
         }
         // ---------------write your code ABOVE this line only! ------------------
         return ans;
@@ -183,13 +190,12 @@ public class DecimalNumber {
     private static String binaryToDecimal(String s) {
         String ans = "";
         // ---------------write your code BELOW this line only! ------------------
-        if (s.length() == 0) {
-            return "0";
+        if (s.length() == 1) {
+            return s;
         }
-        if (s.charAt(0) == '0') {
-            ans = binaryToDecimal(decimalDouble(s));
-        } else {
-            ans = decimalIncrement(binaryToDecimal(decimalDouble(s)));
+        ans = decimalDouble(binaryToDecimal(s.substring(1)));
+        if (s.charAt(0) == '1') {
+            ans = decimalIncrement(ans);
         }
         // ---------------write your code ABOVE this line only! ------------------
         return ans;
@@ -201,7 +207,17 @@ public class DecimalNumber {
     private static String octalToDecimal(String s) {
         String ans = "";
         // ---------------write your code BELOW this line only! ------------------
-
+        if (s.length() == 1) {
+            return s;
+        }
+        ans = octalToDecimal(s.substring(1));
+        ans = decimalDouble(ans);
+        ans = decimalDouble(ans);
+        ans = decimalDouble(ans);
+        int i = toInt(s.charAt(0));
+        for (int j = 0; j < i; j++) {
+            ans = decimalIncrement(ans);
+        }
         // ---------------write your code ABOVE this line only! ------------------
         return ans;
     }
