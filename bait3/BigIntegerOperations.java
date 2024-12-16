@@ -196,7 +196,7 @@ public class BigIntegerOperations {
         System.out.println("\n5. Testing isValidPrimesArray:");
         System.out.println("--------------------------");
         BigInteger[] validPrimes = { BigInteger.valueOf(2), BigInteger.valueOf(3), BigInteger.valueOf(5),
-                BigInteger.valueOf(7) };
+                BigInteger.valueOf(7), BigInteger.valueOf(17) };
         BigInteger[] invalidPrimes1 = { BigInteger.valueOf(2), BigInteger.valueOf(4), BigInteger.valueOf(5) }; // contains
                                                                                                                // composite
         BigInteger[] invalidPrimes2 = { BigInteger.valueOf(5), BigInteger.valueOf(3), BigInteger.valueOf(7) }; // not
