@@ -18,6 +18,7 @@ public class TestDecimalNumber {
         testIncrementMethod(incTest4, "299");
         DecimalNumber incTest5 = new DecimalNumber("999");
         testIncrementMethod(incTest5, "0001");
+        testIncrementMethodWrapper(1000);
 
         // Task1c - Testing decimal double
         DecimalNumber doubleTest1 = new DecimalNumber("5");
@@ -30,6 +31,7 @@ public class TestDecimalNumber {
         testMultiplyByTwoMethod(doubleTest4, "89991");
         DecimalNumber doubleTest5 = new DecimalNumber("0004");
         testMultiplyByTwoMethod(doubleTest5, "0008");
+        testMultiplyByTwoMethodWrapper(1000);
 
         // Task1d - Testing binary to decimal conversion
         testConstructorWithBaseString("0", 2, "0");
@@ -96,7 +98,7 @@ public class TestDecimalNumber {
     }
 
     // Test increment() method
-    public static void testIncrementMethod(DecimalNumber num, String expectedOutput) {
+    public static boolean testIncrementMethod(DecimalNumber num, String expectedOutput) {
         String result;
         String originalValue = num.toString(); // Store the original value before increment
         num.increment();
@@ -106,18 +108,19 @@ public class TestDecimalNumber {
             result = "Success";
         } else {
             result = "Failed";
+            System.out.println("Testing increment() method:");
+            System.out.println("  Input value    = " + originalValue);
+            System.out.println("  Actual output  = " + actualOutput);
+            System.out.println("  Expected output= " + expectedOutput);
+            System.out.println("  Result         = " + result);
+            System.out.println();
+            return false;
         }
-
-        System.out.println("Testing increment() method:");
-        System.out.println("  Input value    = " + originalValue);
-        System.out.println("  Actual output  = " + actualOutput);
-        System.out.println("  Expected output= " + expectedOutput);
-        System.out.println("  Result         = " + result);
-        System.out.println();
+        return true;
     }
 
     // Test multiplyByTwo() method
-    public static void testMultiplyByTwoMethod(DecimalNumber num, String expectedOutput) {
+    public static boolean testMultiplyByTwoMethod(DecimalNumber num, String expectedOutput) {
         String result;
         String originalValue = num.toString(); // Store the original value before multiplication
         num.multiplyByTwo();
@@ -127,14 +130,15 @@ public class TestDecimalNumber {
             result = "Success";
         } else {
             result = "Failed";
+            System.out.println("Testing multiplyByTwo() method:");
+            System.out.println("  Input value    = " + originalValue);
+            System.out.println("  Actual output  = " + actualOutput);
+            System.out.println("  Expected output= " + expectedOutput);
+            System.out.println("  Result         = " + result);
+            System.out.println();
+            return false;
         }
-
-        System.out.println("Testing multiplyByTwo() method:");
-        System.out.println("  Input value    = " + originalValue);
-        System.out.println("  Actual output  = " + actualOutput);
-        System.out.println("  Expected output= " + expectedOutput);
-        System.out.println("  Result         = " + result);
-        System.out.println();
+        return true;
     }
 
     // Test Constructor with binary or octal string
@@ -171,5 +175,41 @@ public class TestDecimalNumber {
         }
         System.out.println("Testing equals() method: num1 = " + num1 + ", num2 = " + num2 +
                 "; Expected output = " + expectedOutput + "; --> " + result);
+    }
+
+    public static void testMultiplyByTwoMethodWrapper(int numberOfTests) {
+        int successCount = 0;
+        for (int i = 0; i < numberOfTests; i++) {
+            // Generate a random number between 0 and 999 for testing
+            int randomNum = (int) (Math.random() * 1000);
+            int randomNumResult = randomNum * 2;
+
+            String randomNumString = new StringBuilder(String.valueOf(randomNum)).reverse().toString();
+            String randomNumResultString = new StringBuilder(String.valueOf(randomNumResult)).reverse().toString();
+
+            DecimalNumber num = new DecimalNumber(randomNumString);
+            if (testMultiplyByTwoMethod(num, randomNumResultString)) {
+                successCount++;
+            }
+        }
+        System.out.println("Success rate for multiply by two: " +
+                (successCount * 100.0 / numberOfTests) + "%");
+    }
+
+    public static void testIncrementMethodWrapper(int numberOfTests) {
+        int successCount = 0;
+        for (int i = 0; i < numberOfTests; i++) {
+            // Generate a random number between 0 and 9999 for testing
+            int randomNum = (int) (Math.random() * 10000);
+            int randomNumResult = randomNum + 1;
+            String randomNumString = new StringBuilder(String.valueOf(randomNum)).reverse().toString();
+            String randomNumResultString = new StringBuilder(String.valueOf(randomNumResult)).reverse().toString();
+            DecimalNumber num = new DecimalNumber(randomNumString);
+            if (testIncrementMethod(num, randomNumResultString)) {
+                successCount++;
+            }
+        }
+        System.out.println("Success rate for increment: " +
+                (successCount * 100.0 / numberOfTests) + "%");
     }
 }
