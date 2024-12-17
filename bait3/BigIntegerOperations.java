@@ -108,9 +108,28 @@ public class BigIntegerOperations {
     public static boolean canFactorizeToTarget(BigInteger[] primes, BigInteger n) {
         boolean ans = true;
         // ---------------write your code BELOW this line only! ------------------
-        canFactorizeToTarget(primes, n, false);
+        if (primes == null || n == null || n.compareTo(BigInteger.ONE) < 0) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+        String result = canFactorizeToTarget(primes, n, 0);
+        if (result != "") {
+            ans = true;
+        } else {
+            ans = false;
+        }
+
         // ---------------write your code ABOVE this line only! ------------------
         return ans;
+    }
+
+    public static String canFactorizeToTarget(BigInteger[] primes, BigInteger n, int i) {
+        if (i == primes.length) {
+            return "";
+        }
+        if (n.mod(primes[i]).equals(BigInteger.ZERO)) {
+            return primes[i] + "," + canFactorizeToTarget(primes, n.divide(primes[i]), i);
+        }
+        return canFactorizeToTarget(primes, n, i + 1);
     }
 
     // Task 2.7
@@ -120,34 +139,11 @@ public class BigIntegerOperations {
     // the numbers in the factorization
     public static void printFactorization(BigInteger[] primes, BigInteger n) {
         // ---------------write your code BELOW this line only! ------------------
-        canFactorizeToTarget(primes, n, true);
-        // ---------------write your code ABOVE this line only! ------------------
-    }
-
-    public static boolean canFactorizeToTarget(BigInteger[] primes, BigInteger n, boolean verbose) {
-        boolean ans = true;
-        // ---------------write your code BELOW this line only! ------------------
-        if (primes == null || n == null || n.compareTo(BigInteger.ONE) < 0) {
-            throw new IllegalArgumentException("Invalid input");
-        }
-        String factorization = "";
-        for (int i = 0; i < primes.length; i++) {
-            if (n.mod(primes[i]).equals(BigInteger.ZERO)) {
-                n = n.divide(primes[i]);
-                if (verbose) {
-                    factorization += primes[i].toString() + ",";
-                }
-                i--;
-            }
-        }
-        if (verbose && factorization.length() > 0) {
-            System.out.println(factorization.substring(0, factorization.length() - 1));
-        }
-        if (n.equals(BigInteger.ONE)) {
-            ans = true;
+        String result = canFactorizeToTarget(primes, n, 0);
+        if (result != "") {
+            System.out.println(result.substring(0, result.length() - 1));
         }
         // ---------------write your code ABOVE this line only! ------------------
-        return ans;
     }
 
 }
