@@ -1,46 +1,85 @@
 public class TestDecimalNumber {
     public static void main(String[] args) {
-        // Test Constructor with decimal string
-        testConstructorWithDecimalString("321", "321");
+        // Existing tests...
 
-        // Test increment() method
-        DecimalNumber num1 = new DecimalNumber("321");
-        testIncrementMethod(num1, "421");
-        num1 = new DecimalNumber("0");
-        testIncrementMethod(num1, "1");
-        num1 = new DecimalNumber("1");
-        testIncrementMethod(num1, "2");
+        // Adding new tests based on JUnit output
 
-        // Test multiplyByTwo() method
-        num1 = new DecimalNumber("421");
-        testMultiplyByTwoMethod(num1, "842");
-        num1 = new DecimalNumber("842");
-        testMultiplyByTwoMethod(num1, "694");
-        num1 = new DecimalNumber("0");
-        testMultiplyByTwoMethod(num1, "0");
-        num1 = new DecimalNumber("1");
-        testMultiplyByTwoMethod(num1, "2");
+        // Task1a - Testing legal numeric string
+        testLegalNumericString("72849", 2, false);
 
-        // Test Constructor with binary string
-        testConstructorWithBaseString("1011", 2, "31");
+        // Task1b - Testing decimal increment
+        DecimalNumber incTest1 = new DecimalNumber("99999");
+        testIncrementMethod(incTest1, "000001");
+        DecimalNumber incTest2 = new DecimalNumber("4321");
+        testIncrementMethod(incTest2, "5321");
+        DecimalNumber incTest3 = new DecimalNumber("0");
+        testIncrementMethod(incTest3, "1");
+        DecimalNumber incTest4 = new DecimalNumber("199");
+        testIncrementMethod(incTest4, "299");
+        DecimalNumber incTest5 = new DecimalNumber("999");
+        testIncrementMethod(incTest5, "0001");
+
+        // Task1c - Testing decimal double
+        DecimalNumber doubleTest1 = new DecimalNumber("5");
+        testMultiplyByTwoMethod(doubleTest1, "01");
+        DecimalNumber doubleTest2 = new DecimalNumber("4321");
+        testMultiplyByTwoMethod(doubleTest2, "8642");
+        DecimalNumber doubleTest3 = new DecimalNumber("0");
+        testMultiplyByTwoMethod(doubleTest3, "0");
+        DecimalNumber doubleTest4 = new DecimalNumber("9999");
+        testMultiplyByTwoMethod(doubleTest4, "89991");
+        DecimalNumber doubleTest5 = new DecimalNumber("0004");
+        testMultiplyByTwoMethod(doubleTest5, "0008");
+
+        // Task1d - Testing binary to decimal conversion
         testConstructorWithBaseString("0", 2, "0");
-        testConstructorWithBaseString("1", 2, "1");
+        testConstructorWithBaseString("11111111", 2, "552");
+        testConstructorWithBaseString("011111111", 2, "015");
 
-        // Test Constructor with octal string
-        testConstructorWithBaseString("71", 8, "51");
+        // Task1e - Testing octal to decimal conversion
         testConstructorWithBaseString("0", 8, "0");
-        testConstructorWithBaseString("1", 8, "1");
+        testConstructorWithBaseString("1234567", 8, "3534502");
+        testConstructorWithBaseString("07777", 8, "06723");
 
-        // Test equals() method
-        DecimalNumber num2 = new DecimalNumber("842");
-        DecimalNumber num3 = new DecimalNumber("842");
-        DecimalNumber num4 = new DecimalNumber("942");
-        testEqualsMethod(num2, num3, true);
-        testEqualsMethod(num2, num4, false);
+        // Task1f - Testing invalid decimal constructor
+        try {
+            new DecimalNumber("invalid");
+            System.out.println("Failed: Should throw exception for invalid decimal");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Success: Caught expected exception for invalid decimal input");
+        }
 
-        // Additional tests
-        // Students are encouraged to add more test cases to thoroughly test their
-        // implementations
+        // Task1g - Testing invalid base constructor
+        try {
+            new DecimalNumber("invalid", 2);
+            System.out.println("Failed: Should throw exception for invalid binary");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Success: Caught expected exception for invalid binary input");
+        }
+
+        // Task1h - Testing equals and toString
+        DecimalNumber eq1 = new DecimalNumber("12345");
+        DecimalNumber eq2 = new DecimalNumber("12345");
+        DecimalNumber eq3 = new DecimalNumber("54321");
+        testEqualsMethod(eq1, eq2, true);
+        testEqualsMethod(eq1, eq3, false);
+        System.out.println("toString() test: " + eq1.toString().equals("12345"));
+
+        // Test equals with non-DecimalNumber object
+        System.out.println("equals() with String test: " + !eq1.equals("12345"));
+    }
+
+    // Add helper method for testing legal numeric string
+    public static void testLegalNumericString(String input, int base, boolean expected) {
+        String result;
+        try {
+            new DecimalNumber(input, base);
+            result = expected ? "Success" : "Failed";
+        } catch (IllegalArgumentException e) {
+            result = !expected ? "Success" : "Failed";
+        }
+        System.out.println("Testing legal numeric string: input = " + input +
+                " in base " + base + "; Expected = " + expected + "; --> " + result);
     }
 
     // Test Constructor with decimal string

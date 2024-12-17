@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "TestBigIntegerOperations",
+      "request": "launch",
+      "mainClass": "TestBigIntegerOperations",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
       "name": "BigIntegerOperations",
       "request": "launch",
       "mainClass": "BigIntegerOperations",

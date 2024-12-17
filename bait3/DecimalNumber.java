@@ -176,9 +176,9 @@ public class DecimalNumber {
         }
         int mul = (toInt(s.charAt(0)) * 2);
         if (mul + carry > 9) {
-            ans = (mul + "").charAt(1) + decimalDouble(s.substring(1), 1);
+            ans = ((mul + carry) % 10) + decimalDouble(s.substring(1), 1);
         } else {
-            ans = (mul + carry + "").charAt(0) + decimalDouble(s.substring(1), 0);
+            ans = (mul + carry) + decimalDouble(s.substring(1), 0);
         }
         // ---------------write your code ABOVE this line only! ------------------
         return ans;
@@ -211,12 +211,16 @@ public class DecimalNumber {
             return s;
         }
         ans = octalToDecimal(s.substring(1));
-        ans = decimalDouble(ans);
-        ans = decimalDouble(ans);
-        ans = decimalDouble(ans);
-        int i = toInt(s.charAt(0));
-        for (int j = 0; j < i; j++) {
+        // Each octal digit needs to be multiplied by the appropriate power of 8
+        // We can do this by doubling 3 times (2^3 = 8) and then adding the digit value
+        ans = decimalDouble(ans); // Multiply by 2
+        ans = decimalDouble(ans); // Multiply by 2 again (now 4)
+        ans = decimalDouble(ans); // Multiply by 2 again (now 8)
+        // Add the current digit value
+        int currentDigit = toInt(s.charAt(0));
+        while (currentDigit > 0) {
             ans = decimalIncrement(ans);
+            currentDigit--;
         }
         // ---------------write your code ABOVE this line only! ------------------
         return ans;
