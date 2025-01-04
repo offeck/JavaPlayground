@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "BinaryNumberTester",
+      "request": "launch",
+      "mainClass": "BinaryNumberTester",
+      "projectName": "JavaPlayground_74a3affa"
+    },
+    {
+      "type": "java",
+      "name": "BinaryRepresentationTester",
+      "request": "launch",
+      "mainClass": "BinaryRepresentationTester",
+      "projectName": "JavaPlayground_74a3affa"
+    },
+    {
+      "type": "java",
       "name": "TestBigIntegerOperations",
       "request": "launch",
       "mainClass": "TestBigIntegerOperations",
