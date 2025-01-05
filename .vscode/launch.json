@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MixedTypeArray",
+      "request": "launch",
+      "mainClass": "MixedTypeArray",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "List_Tests",
+      "request": "launch",
+      "mainClass": "List_Tests",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
       "name": "TestBigIntegerOperations",
       "request": "launch",
       "mainClass": "TestBigIntegerOperations",
