@@ -6,17 +6,17 @@
   "configurations": [
     {
       "type": "java",
-      "name": "MixedTypeArray",
+      "name": "BinaryNumberTester",
       "request": "launch",
-      "mainClass": "MixedTypeArray",
-      "projectName": "JavaPlayground_9d4334c"
+      "mainClass": "BinaryNumberTester",
+      "projectName": "JavaPlayground_74a3affa"
     },
     {
       "type": "java",
-      "name": "List_Tests",
+      "name": "BinaryRepresentationTester",
       "request": "launch",
-      "mainClass": "List_Tests",
-      "projectName": "JavaPlayground_9d4334c"
+      "mainClass": "BinaryRepresentationTester",
+      "projectName": "JavaPlayground_74a3affa"
     },
     {
       "type": "java",
