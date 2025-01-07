@@ -22,12 +22,14 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         int num = n;
         while (num > 0) {
             if (num % 2 == 0) {
-                rep.addFirst(Bit.ZERO);
+                rep.addLast(Bit.ZERO);
             } else {
-                rep.addFirst(Bit.ONE);
+                rep.addLast(Bit.ONE);
             }
             num = num / 2;
         }
+        rep.addLast(Bit.ZERO);
+        rep.reduce();
     }
 
     // Assumes other is a non-null BinaryNumber
@@ -41,7 +43,22 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     // negative
     // Initializes a BinaryNumber representing the number described in s
     public BinaryNumber(String s) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        int power = 1;
+        // this.rep = (new BinaryNumber(0)).rep;
+        BinaryNumber temp = new BinaryNumber(0);
+        for (int i = s.length() - 1; i > -1; i--) {
+            if (s.charAt(i) == '-') {
+                temp = temp.negate();
+                continue;
+            }
+            BinaryNumber powerAsBinary = new BinaryNumber(power);
+            int digit = charToInt(s.charAt(i));
+            BinaryNumber digitAsBinary = new BinaryNumber(digit);
+            BinaryNumber multiplication = powerAsBinary.multiply(digitAsBinary);
+            temp = temp.add(multiplication);
+            power *= 10;
+        }
+        this.rep = temp.rep;
     }
 
     // Task 2.4
@@ -53,12 +70,14 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             throw new IllegalArgumentException("Other cannot be null");
         }
         int maxLength = Math.max(this.length(), other.length());
+        BinaryNumber this2 = new BinaryNumber(this);
         BinaryNumber other2 = new BinaryNumber(other);
-        this.rep.padding(maxLength);
+        this2.rep.padding(maxLength);
         other2.rep.padding(maxLength);
-        Iterator<Bit> thisIterator = this.rep.iterator();
+        Iterator<Bit> thisIterator = this2.rep.iterator();
         Iterator<Bit> otherIterator = other2.rep.iterator();
-        BinaryRepresentation res = new BinaryRepresentation();
+        BinaryNumber res = new BinaryNumber(0);
+        res.rep.shiftRight();
 
         Bit carry = Bit.ZERO;
         while (thisIterator.hasNext() && otherIterator.hasNext()) {
@@ -66,26 +85,26 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             Bit bit2 = otherIterator.next();
             Bit sum = Bit.fullAdderSum(bit1, bit2, carry);
             carry = Bit.fullAdderCarry(bit1, bit2, carry);
-            res.addLast(sum);
+            res.rep.addLast(sum);
         }
 
         if (carry == Bit.ONE) {
-            if (other2.rep.getLast() == this.rep.getLast())
-                res.addLast(Bit.ONE);
+            if (other2.rep.getLast() == this2.rep.getLast())
+                res.rep.addLast(Bit.ONE);
         }
-        res.reduce();
-        return new BinaryNumber(res.toString());
+        res.rep.reduce();
+        return res;
     }
 
     // Task 2.5
     // Returns a new BinaryNumber that represents the Additive Inverse of this, that
     // is, if this equals X, the return value is -X
     public BinaryNumber negate() {
-        BinaryRepresentation res = new BinaryRepresentation(this.rep);
-        res.complement();
-        BinaryNumber res2 = new BinaryNumber(res.toString());
-        res2.add(new BinaryNumber(1));
-        return res2;
+        // BinaryRepresentation res = new BinaryRepresentation(this.rep);
+        BinaryNumber res = new BinaryNumber(this);
+        res.rep.complement();
+        res = res.add(new BinaryNumber(1));
+        return res;
     }
 
     // Task 2.6
@@ -114,7 +133,15 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     // Returns a new BinaryNumber containing the result of the multiplication of
     // other and this (i.e. this * other)
     private BinaryNumber multiplyPositive(BinaryNumber other) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        Bit first = other.rep.shiftRight();
+        if (first == null) {
+            return new BinaryNumber(0);
+        }
+        BinaryNumber res = (first == Bit.ZERO) ? new BinaryNumber(0) : new BinaryNumber(this);
+        this.rep.shiftLeft();
+        BinaryNumber multiplicationResult = this.multiplyPositive(other);
+        BinaryNumber finalRes = res.add(multiplicationResult);
+        return finalRes;
     }
 
     // Task 2.10
@@ -122,7 +149,19 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     // Returns a new BinaryNumber containing the result of the multiplication of
     // other and this (i.e. this * other)
     public BinaryNumber multiply(BinaryNumber other) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (other == null) {
+            throw new IllegalArgumentException("Other cannot be null");
+        }
+        int signum = this.signum() * other.signum();
+        BinaryNumber thisPositive = (this.signum() == -1) ? new BinaryNumber(this.negate()) : new BinaryNumber(this);
+        BinaryNumber otherPositive = (other.signum() == -1) ? new BinaryNumber(other.negate())
+                : new BinaryNumber(other);
+
+        BinaryNumber res = thisPositive.multiplyPositive(otherPositive);
+        if (signum == -1) {
+            res = res.negate();
+        }
+        return res;
     }
 
     // Task 2.11
@@ -130,7 +169,37 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     // Returns a new BinaryNumber containing the result of the integer-division of
     // other from this (i.e. this / other)
     public BinaryNumber divide(BinaryNumber other) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (other == null) {
+            throw new IllegalArgumentException("Other cannot be null");
+        }
+        int signum = this.signum() * other.signum();
+        BinaryNumber thisPositive = (this.signum() == -1) ? this.negate() : this;
+        BinaryNumber otherPositive = (other.signum() == -1) ? other.negate() : other;
+        BinaryNumber res = thisPositive.dividePositive(otherPositive);
+        if (signum == -1) {
+            res = res.negate();
+        }
+        return res;
+    }
+
+    private BinaryNumber dividePositive(BinaryNumber denominator) {
+        String thisString = this.toString();
+        BinaryNumber numerator = new BinaryNumber(0);
+        BinaryNumber res = new BinaryNumber(0);
+        for (int i = thisString.length() - 1; i > -1; i--) {
+            if (thisString.charAt(i) == '1') {
+                numerator.rep.addFirst(Bit.ONE);
+            } else {
+                numerator.rep.addFirst(Bit.ZERO);
+            }
+            if (numerator.compareTo(denominator) >= 0) {
+                numerator.subtract(denominator);
+                res.rep.addFirst(Bit.ONE);
+            } else {
+                res.rep.addFirst(Bit.ZERO);
+            }
+        }
+        return res;
     }
 
     // Task 2.2
@@ -200,12 +269,16 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             Bit bit = iterator.next();
             if (bit == Bit.ONE) {
                 // Check for overflow before adding
+                // power > 30 would cause 1 << power to overflow
+                // Also check if adding 2^power would overflow result
                 if (power > 30 || result > Integer.MAX_VALUE - (1 << power)) {
                     throw new RuntimeException("Number too large to be represented as int");
                 }
+                // Add 2^power to result when we see a 1 bit
+                // 1 << power is equivalent to 2^power
                 result += (1 << power);
             }
-            power++;
+            power++; // Track which power of 2 we're at
         }
 
         // Apply sign
@@ -230,8 +303,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (!isLegal()) {
             throw new IllegalArgumentException("Illegal Number");
         }
-
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        return toString();
     }
 
     /*
@@ -264,5 +336,9 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         BinaryNumber res = new BinaryNumber(this);
         res.rep.shiftRight();
         return res;
+    }
+
+    private static int charToInt(char c) {
+        return c - '0';
     }
 }

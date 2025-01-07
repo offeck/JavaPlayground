@@ -139,16 +139,11 @@ public class BinaryRepresentation implements Iterable<Bit> {
         if (bits.isEmpty()) {
             return;
         }
-        // Update numOfOnes by subtracting it from total length since 1s become 0s and
-        // vice versa
-        numOfOnes = bits.size() - numOfOnes;
-
-        for (int i = 0; i < bits.size(); i++) {
-            if (bits.get(i) == Bit.ZERO) {
-                bits.set(i, Bit.ONE);
-            } else {
-                bits.set(i, Bit.ZERO);
-            }
+        numOfOnes = length() - getNumOfOnes();
+        int tempLength = length();
+        for (int i = 0; i < tempLength; i++) {
+            Bit bit = shiftRight();
+            bits.addLast(bit.negate());
         }
     }
 

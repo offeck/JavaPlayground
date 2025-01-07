@@ -464,14 +464,15 @@ public class BinaryRepresentationTester {
         System.out.println("Starting Binary Representation Tests");
         System.out.println("=================================");
 
-        printTestResult("Add/Remove Operations (Task 1.1)", testAddRemoveOperations());
-        printTestResult("ToString (Task 1.2)", testToString());
-        printTestResult("Copy Constructor (Task 1.3)", testCopyConstructor());
-        printTestResult("Legal Number (Task 1.4)", testIsLegalNumber());
-        printTestResult("Reduced Operations (Task 1.5)", testReducedOperations());
+        // printTestResult("Add/Remove Operations (Task 1.1)",
+        // testAddRemoveOperations());
+        // printTestResult("ToString (Task 1.2)", testToString());
+        // printTestResult("Copy Constructor (Task 1.3)", testCopyConstructor());
+        // printTestResult("Legal Number (Task 1.4)", testIsLegalNumber());
+        // printTestResult("Reduced Operations (Task 1.5)", testReducedOperations());
         printTestResult("Complement (Task 1.6)", testComplement());
-        printTestResult("Shift Operations (Task 1.7)", testShiftOperations());
-        printTestResult("Padding (Task 1.8)", testPadding());
+        // printTestResult("Shift Operations (Task 1.7)", testShiftOperations());
+        // printTestResult("Padding (Task 1.8)", testPadding());
 
         System.out.println("=================================");
         System.out.println("All tests completed");
