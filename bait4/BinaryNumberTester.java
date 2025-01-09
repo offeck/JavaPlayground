@@ -1,10 +1,10 @@
 public class BinaryNumberTester {
 
     public static void main(String[] args) {
-        // testBasicOperations();
-        // testNegativeNumbers();
-        // testMultiplication();
-        // testDivision();
+        testBasicOperations();
+        testNegativeNumbers();
+        testMultiplication();
+        testDivision();
         testEdgeCases();
         testConversions();
     }
@@ -77,6 +77,8 @@ public class BinaryNumberTester {
 
     private static void testEdgeCases() {
         System.out.println("\n=== Testing Edge Cases ===");
+
+        // Test division by zero
         try {
             BinaryNumber zero = new BinaryNumber("0");
             BinaryNumber num = new BinaryNumber("10");
@@ -86,7 +88,7 @@ public class BinaryNumberTester {
             System.out.println("Caught expected exception: " + e.getMessage());
         }
 
-        // Test with maximum value your implementation supports
+        // Test large number handling
         BinaryNumber large = new BinaryNumber("1000000");
         System.out.println("\nTesting large number: 1000000");
         System.out.println("Binary: " + large.toString());
@@ -96,7 +98,7 @@ public class BinaryNumberTester {
     private static void testConversions() {
         System.out.println("\n=== Testing Conversions ===");
 
-        // Test positive numbers
+        // Test standard positive numbers
         testNumber("42");
         testNumber("127");
         testNumber("1024");
@@ -106,7 +108,7 @@ public class BinaryNumberTester {
         testNumber("-127");
         testNumber("-1024");
 
-        // Test edge cases
+        // Test boundary cases
         testNumber("0");
         testNumber("1");
         testNumber("-1");
@@ -117,18 +119,17 @@ public class BinaryNumberTester {
             System.out.println("\nTesting number: " + input);
             BinaryNumber num = new BinaryNumber(input);
 
-            // Test string representation
+            // Test various representations
             System.out.println("Binary representation: " + num.toString());
 
-            // Test toInt conversion
+            // Test decimal conversions
             int intValue = num.toInt();
             System.out.println("toInt() result: " + intValue);
 
-            // Test toIntString conversion
             String intString = num.toIntString();
             System.out.println("toIntString() result: " + intString);
 
-            // Verify round-trip conversion using toInt
+            // Verify conversion accuracy
             String originalInput = String.valueOf(intValue);
             if (!originalInput.equals(input)) {
                 System.out.println("WARNING: toInt round-trip conversion mismatch!");
@@ -138,7 +139,7 @@ public class BinaryNumberTester {
                 System.out.println("toInt round-trip conversion: OK");
             }
 
-            // Verify toIntString matches input
+            // Verify string conversion accuracy
             if (!intString.equals(input)) {
                 System.out.println("WARNING: toIntString mismatch!");
                 System.out.println("Original input: " + input);

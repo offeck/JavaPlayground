@@ -181,23 +181,35 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         return res;
     }
 
+    // Helper method for division of positive numbers
+    // Implements long division algorithm in binary
     private BinaryNumber dividePositive(BinaryNumber denominator) {
+        // Initialize result and working numerator
         BinaryNumber numerator = new BinaryNumber(0);
-        BinaryNumber res = new BinaryNumber(0);
+        BinaryNumber result = new BinaryNumber(0);
+
+        // Process bits from most significant to least significant
         Iterator<Bit> thisIterator = this.rep.descendingIterator();
+
         while (thisIterator.hasNext()) {
-            Bit bit = thisIterator.next();
-            numerator.rep.addFirst(bit);
+            // Get next bit and add it to current numerator
+            Bit currentBit = thisIterator.next();
+            numerator.rep.addFirst(currentBit);
             numerator.rep.reduce();
+
+            // If numerator >= denominator, subtract and add 1 to result
             if (numerator.compareTo(denominator) >= 0) {
                 numerator = numerator.subtract(denominator);
-                res.rep.addFirst(Bit.ONE);
+                result.rep.addFirst(Bit.ONE);
             } else {
-                res.rep.addFirst(Bit.ZERO);
+                // Otherwise, add 0 to result
+                result.rep.addFirst(Bit.ZERO);
             }
         }
-        res.rep.reduce();
-        return res;
+
+        // Ensure result is in minimal form
+        result.rep.reduce();
+        return result;
     }
 
     // Task 2.2
@@ -267,14 +279,12 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             Bit bit = iterator.next();
             if (bit == Bit.ONE) {
                 // Check for overflow before adding
-                // power > 30 would cause 1 << power to overflow
-                // Also check if adding 2^power would overflow result
-                if (power > 30 || result > Integer.MAX_VALUE - (1 << power)) {
+                // power > 30 would cause 2^power to overflow
+                if (power > 30 || result > Integer.MAX_VALUE - (int) Math.pow(2, power)) {
                     throw new RuntimeException("Number too large to be represented as int");
                 }
                 // Add 2^power to result when we see a 1 bit
-                // 1 << power is equivalent to 2^power
-                result += (1 << power);
+                result += (int) Math.pow(2, power);
             }
             power++; // Track which power of 2 we're at
         }
