@@ -121,22 +121,22 @@ public class BinaryNumberTester {
             System.out.println("Binary representation: " + num.toString());
 
             // Test toInt conversion
-            // int intValue = num.toInt();
-            // System.out.println("toInt() result: " + intValue);
+            int intValue = num.toInt();
+            System.out.println("toInt() result: " + intValue);
 
             // Test toIntString conversion
             String intString = num.toIntString();
             System.out.println("toIntString() result: " + intString);
 
             // Verify round-trip conversion using toInt
-            // String originalInput = String.valueOf(intValue);
-            // if (!originalInput.equals(input)) {
-            // System.out.println("WARNING: toInt round-trip conversion mismatch!");
-            // System.out.println("Original input: " + input);
-            // System.out.println("After toInt conversion: " + originalInput);
-            // } else {
-            // System.out.println("toInt round-trip conversion: OK");
-            // }
+            String originalInput = String.valueOf(intValue);
+            if (!originalInput.equals(input)) {
+                System.out.println("WARNING: toInt round-trip conversion mismatch!");
+                System.out.println("Original input: " + input);
+                System.out.println("After toInt conversion: " + originalInput);
+            } else {
+                System.out.println("toInt round-trip conversion: OK");
+            }
 
             // Verify toIntString matches input
             if (!intString.equals(input)) {
