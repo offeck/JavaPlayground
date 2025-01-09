@@ -87,10 +87,8 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             carry = Bit.fullAdderCarry(bit1, bit2, carry);
             res.rep.addLast(sum);
         }
-
-        if (carry == Bit.ONE) {
-            if (other2.rep.getLast() == this2.rep.getLast())
-                res.rep.addLast(Bit.ONE);
+        if (other2.rep.getLast() == this2.rep.getLast()) {
+            res.rep.addLast(carry);
         }
         res.rep.reduce();
         return res;
@@ -158,6 +156,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
                 : new BinaryNumber(other);
 
         BinaryNumber res = thisPositive.multiplyPositive(otherPositive);
+
         if (signum == -1) {
             res = res.negate();
         }
@@ -183,22 +182,21 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     }
 
     private BinaryNumber dividePositive(BinaryNumber denominator) {
-        String thisString = this.toString();
         BinaryNumber numerator = new BinaryNumber(0);
         BinaryNumber res = new BinaryNumber(0);
-        for (int i = thisString.length() - 1; i > -1; i--) {
-            if (thisString.charAt(i) == '1') {
-                numerator.rep.addFirst(Bit.ONE);
-            } else {
-                numerator.rep.addFirst(Bit.ZERO);
-            }
+        Iterator<Bit> thisIterator = this.rep.descendingIterator();
+        while (thisIterator.hasNext()) {
+            Bit bit = thisIterator.next();
+            numerator.rep.addFirst(bit);
+            numerator.rep.reduce();
             if (numerator.compareTo(denominator) >= 0) {
-                numerator.subtract(denominator);
+                numerator = numerator.subtract(denominator);
                 res.rep.addFirst(Bit.ONE);
             } else {
                 res.rep.addFirst(Bit.ZERO);
             }
         }
+        res.rep.reduce();
         return res;
     }
 
@@ -232,8 +230,8 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             throw new IllegalArgumentException("Other cannot be null");
         }
         BinaryNumber temp = new BinaryNumber(this);
-        temp.subtract(other);
-        return temp.signum();
+        BinaryNumber res = temp.subtract(other);
+        return res.signum();
     }
 
     // Task 2.9
@@ -303,7 +301,11 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (!isLegal()) {
             throw new IllegalArgumentException("Illegal Number");
         }
-        return toString();
+        if (this.signum() == -1) {
+
+            return "-" + binaryToDecimal(this.negate().toString());
+        }
+        return binaryToDecimal(this.toString());
     }
 
     /*
@@ -340,5 +342,92 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
 
     private static int charToInt(char c) {
         return c - '0';
+    }
+
+    // Task 1.2
+    // 's' is a string representing a valid decimal number.
+    // Increments the number represented by 's' by 1 and returns the result as a
+    // string.
+    private static String decimalIncrement(String s) {
+        String ans = "";
+        // ---------------write your code BELOW this line only! ------------------
+        int carry = 1;
+        ans = decimalIncrement(s, carry);
+        // ---------------write your code ABOVE this line only! ------------------
+        return ans;
+    }
+
+    // Task 1.2
+    // 's' is a string representing a valid decimal number, 0<='carry'<=1.
+    // Increments the number represented by 's' by 'carry'.
+    private static String decimalIncrement(String s, int carry) {
+        String ans = "";
+        // ---------------write your code BELOW this line only! ------------------
+        if (s.length() == 0) {
+            if (carry == 1) {
+                ans = "1";
+            } else {
+                ans = "";
+            }
+        } else if (charToInt(s.charAt(0)) + carry > 9) {
+            ans = "0" + decimalIncrement(s.substring(1), 1);
+        } else {
+            ans = charToInt(s.charAt(0)) + carry + decimalIncrement(s.substring(1), 0);
+        }
+        // ---------------write your code ABOVE this line only! ------------------
+        return ans;
+    }
+
+    // Task 1.3
+    // 's' is a string representing a valid decimal number.
+    // Doubles the decimal number represented by 's' and returns the result as a
+    // string.
+    private static String decimalDouble(String s) {
+        String ans = "";
+        // ---------------write your code BELOW this line only! ------------------
+        int carry = 0;
+        ans = decimalDouble(s, carry);
+
+        // ---------------write your code ABOVE this line only! ------------------
+        return ans;
+    }
+
+    // Task 1.3
+    // 's' is a string representing a valid decimal number, 0<='carry'<=1
+    // Doubles the decimal number represented by 's', and adds to it the 'carry'
+    private static String decimalDouble(String s, int carry) {
+        String ans = "";
+        // ---------------write your code BELOW this line only! ------------------
+        if (s.length() == 0) {
+            if (carry == 1) {
+                return "1";
+            }
+            return "";
+        }
+        int mul = (charToInt(s.charAt(0)) * 2);
+        if (mul + carry > 9) {
+            ans = ((mul + carry) % 10) + decimalDouble(s.substring(1), 1);
+        } else {
+            ans = (mul + carry) + decimalDouble(s.substring(1), 0);
+        }
+        // ---------------write your code ABOVE this line only! ------------------
+        return ans;
+    }
+
+    // Task 1.4
+    // 's' is a string representing a valid binary number.
+    // Converts a binary string 's' to its decimal string representation.
+    private static String binaryToDecimal(String s) {
+        String ans = "";
+        // ---------------write your code BELOW this line only! ------------------
+        if (s.length() == 1) {
+            return s;
+        }
+        ans = decimalDouble(binaryToDecimal(s.substring(1)));
+        if (s.charAt(0) == '1') {
+            ans = decimalIncrement(ans);
+        }
+        // ---------------write your code ABOVE this line only! ------------------
+        return ans;
     }
 }

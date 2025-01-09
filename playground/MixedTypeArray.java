@@ -274,7 +274,7 @@ public class MixedTypeArray<T1, T2> {
 
         }
         Comparator i = new Comparator<T>() {
-            
+
         };
     }
 }

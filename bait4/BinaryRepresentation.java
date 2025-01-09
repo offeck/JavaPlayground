@@ -217,4 +217,8 @@ public class BinaryRepresentation implements Iterable<Bit> {
     public Iterator<Bit> iterator() {
         return this.bits.iterator();
     }
+
+    public Iterator<Bit> descendingIterator() {
+        return this.bits.descendingIterator();
+    }
 }
