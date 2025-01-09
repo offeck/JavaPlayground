@@ -302,8 +302,9 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             throw new IllegalArgumentException("Illegal Number");
         }
         String absStr = (this.signum() == -1) ? this.negate().toString() : this.toString();
-        String absStrWithoutFirstBit = absStr.substring(1, absStr.length() - 1);
-        String res = binaryToDecimal(absStrWithoutFirstBit);
+        String absStrWithoutFirstBit = absStr.substring(1, absStr.length());
+        String res = new StringBuilder(binaryToDecimal(new StringBuilder(absStrWithoutFirstBit).reverse().toString()))
+                .reverse().toString();
         if (this.signum() == -1) {
             res = "-" + res;
         }
@@ -425,7 +426,8 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (s.length() == 1) {
             return s;
         }
-        ans = decimalDouble(binaryToDecimal(s.substring(1)));
+        String temp = s.substring(1);
+        ans = decimalDouble(binaryToDecimal(temp));
         if (s.charAt(0) == '1') {
             ans = decimalIncrement(ans);
         }
