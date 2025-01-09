@@ -43,20 +43,18 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     // negative
     // Initializes a BinaryNumber representing the number described in s
     public BinaryNumber(String s) {
-        int power = 1;
-        // this.rep = (new BinaryNumber(0)).rep;
+        BinaryNumber power = new BinaryNumber(1);
         BinaryNumber temp = new BinaryNumber(0);
         for (int i = s.length() - 1; i > -1; i--) {
             if (s.charAt(i) == '-') {
                 temp = temp.negate();
                 continue;
             }
-            BinaryNumber powerAsBinary = new BinaryNumber(power);
             int digit = charToInt(s.charAt(i));
             BinaryNumber digitAsBinary = new BinaryNumber(digit);
-            BinaryNumber multiplication = powerAsBinary.multiply(digitAsBinary);
+            BinaryNumber multiplication = power.multiply(digitAsBinary);
             temp = temp.add(multiplication);
-            power *= 10;
+            power = power.multiply(new BinaryNumber(10));
         }
         this.rep = temp.rep;
     }

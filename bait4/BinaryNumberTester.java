@@ -112,6 +112,54 @@ public class BinaryNumberTester {
         testNumber("0");
         testNumber("1");
         testNumber("-1");
+
+        // Test Integer boundary values
+        testNumber(String.valueOf(Integer.MAX_VALUE));
+        testNumber(String.valueOf(Integer.MIN_VALUE));
+        testNumber(String.valueOf(Integer.MAX_VALUE - 1));
+        testNumber(String.valueOf(Integer.MIN_VALUE + 1));
+
+        // Test numbers near power-of-2 boundaries
+        testNumber("2147483646"); // MAX_VALUE - 1
+        testNumber("2147483647"); // MAX_VALUE
+        testNumber("-2147483648"); // MIN_VALUE
+        testNumber("-2147483647"); // MIN_VALUE + 1
+
+        // Test numbers that should cause overflow
+        testNumber("2147483648"); // MAX_VALUE + 1
+        testNumber("4294967295"); // 2^32 - 1
+        testNumber("-2147483649"); // MIN_VALUE - 1
+        testNumber("-4294967295"); // -(2^32 - 1)
+
+        // Test powers of 2
+        testNumber("2");
+        testNumber("4");
+        testNumber("8");
+        testNumber("16");
+        testNumber("32");
+        testNumber("64");
+        testNumber("128");
+        testNumber("256");
+        testNumber("512");
+        testNumber("1024");
+        testNumber("2048");
+        testNumber("4096");
+        testNumber("8192");
+        testNumber("16384");
+        testNumber("32768");
+        testNumber("65536");
+
+        // Test numbers with interesting binary patterns
+        testNumber("1431655765"); // 01010101...01
+        testNumber("-1431655766"); // 10101010...10
+        testNumber("1010101010");
+        testNumber("-1010101010");
+
+        // Test very large numbers (beyond int)
+        testNumber("9999999999");
+        testNumber("-9999999999");
+        testNumber("123456789123456789");
+        testNumber("-123456789123456789");
     }
 
     private static void testNumber(String input) {
@@ -123,21 +171,21 @@ public class BinaryNumberTester {
             System.out.println("Binary representation: " + num.toString());
 
             // Test decimal conversions
-            int intValue = num.toInt();
-            System.out.println("toInt() result: " + intValue);
+            // int intValue = num.toInt();
+            // System.out.println("toInt() result: " + intValue);
 
             String intString = num.toIntString();
             System.out.println("toIntString() result: " + intString);
 
             // Verify conversion accuracy
-            String originalInput = String.valueOf(intValue);
-            if (!originalInput.equals(input)) {
-                System.out.println("WARNING: toInt round-trip conversion mismatch!");
-                System.out.println("Original input: " + input);
-                System.out.println("After toInt conversion: " + originalInput);
-            } else {
-                System.out.println("toInt round-trip conversion: OK");
-            }
+            // String originalInput = String.valueOf(intValue);
+            // if (!originalInput.equals(input)) {
+            // System.out.println("WARNING: toInt round-trip conversion mismatch!");
+            // System.out.println("Original input: " + input);
+            // System.out.println("After toInt conversion: " + originalInput);
+            // } else {
+            // System.out.println("toInt round-trip conversion: OK");
+            // }
 
             // Verify string conversion accuracy
             if (!intString.equals(input)) {
