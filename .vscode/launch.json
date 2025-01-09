@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "TestDecimalNumber",
+      "request": "launch",
+      "mainClass": "TestDecimalNumber",
+      "projectName": "JavaPlayground_74a3affa"
+    },
+    {
+      "type": "java",
       "name": "BinaryRepresentationTester",
       "request": "launch",
       "mainClass": "BinaryRepresentationTester",

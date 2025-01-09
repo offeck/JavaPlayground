@@ -301,11 +301,13 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (!isLegal()) {
             throw new IllegalArgumentException("Illegal Number");
         }
+        String absStr = (this.signum() == -1) ? this.negate().toString() : this.toString();
+        String absStrWithoutFirstBit = absStr.substring(1, absStr.length() - 1);
+        String res = binaryToDecimal(absStrWithoutFirstBit);
         if (this.signum() == -1) {
-
-            return "-" + binaryToDecimal(this.negate().toString());
+            res = "-" + res;
         }
-        return binaryToDecimal(this.toString());
+        return res;
     }
 
     /*
