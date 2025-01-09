@@ -303,7 +303,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         }
         String absStr = (this.signum() == -1) ? this.negate().toString() : this.toString();
         String absStrWithoutFirstBit = absStr.substring(1, absStr.length());
-        String res = new StringBuilder(binaryToDecimal(new StringBuilder(absStrWithoutFirstBit).reverse().toString()))
+        String res = new StringBuilder(binaryToDecimal(absStrWithoutFirstBit))
                 .reverse().toString();
         if (this.signum() == -1) {
             res = "-" + res;
@@ -426,9 +426,9 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (s.length() == 1) {
             return s;
         }
-        String temp = s.substring(1);
+        String temp = s.substring(0, s.length() - 1);
         ans = decimalDouble(binaryToDecimal(temp));
-        if (s.charAt(0) == '1') {
+        if (s.charAt(s.length() - 1) == '1') {
             ans = decimalIncrement(ans);
         }
         // ---------------write your code ABOVE this line only! ------------------
