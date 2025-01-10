@@ -169,6 +169,9 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (other == null) {
             throw new IllegalArgumentException("Other cannot be null");
         }
+        if (other.equals(new BinaryNumber(0))) {
+            throw new IllegalArgumentException("Division by zero");
+        }
         int signum = this.signum() * other.signum();
         BinaryNumber thisPositive = (this.signum() == -1) ? this.negate() : this;
         BinaryNumber otherPositive = (other.signum() == -1) ? other.negate() : other;
@@ -279,7 +282,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
                 // Check for overflow before adding
                 // power > 30 would cause 2^power to overflow
                 if (power > 30 || result > Integer.MAX_VALUE - (int) Math.pow(2, power)) {
-                    throw new RuntimeException("Number too large to be represented as int");
+                    throw new IllegalArgumentException("Number too large to be represented as int");
                 }
                 // Add 2^power to result when we see a 1 bit
                 result += (int) Math.pow(2, power);
@@ -293,7 +296,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
                 return result;
             }
             if (result > Integer.MAX_VALUE) {
-                throw new RuntimeException("Number too small to be represented as int");
+                throw new IllegalArgumentException("Number too small to be represented as int");
             }
             result = -result;
         }
