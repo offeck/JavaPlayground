@@ -1,12 +1,12 @@
 public class BinaryNumberTester {
 
     public static void main(String[] args) {
-        // testBasicOperations();
-        // testNegativeNumbers();
+        testBasicOperations();
+        testNegativeNumbers();
         testMultiplication();
         testDivision();
-        // testEdgeCases();
-        // testConversions();
+        testEdgeCases();
+        testConversions();
     }
 
     private static void testBasicOperations() {
@@ -151,7 +151,7 @@ public class BinaryNumberTester {
             BinaryNumber one = new BinaryNumber("1");
             result = num.divide(one);
             System.out.println("42 / 1 = " + result.toInt() + " (Expected: 42)");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("ERROR: Division by 1 failed: " + e.getMessage());
         }
 
@@ -161,7 +161,7 @@ public class BinaryNumberTester {
             BinaryNumber negOne = new BinaryNumber("-1");
             result = num.divide(negOne);
             System.out.println("42 / -1 = " + result.toInt() + " (Expected: -42)");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("ERROR: Division by -1 failed: " + e.getMessage());
         }
 
@@ -171,7 +171,7 @@ public class BinaryNumberTester {
             BinaryNumber two = new BinaryNumber("2");
             result = max.divide(two);
             System.out.println("MAX_VALUE / 2 = " + result.toInt());
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("ERROR: MAX_VALUE division failed: " + e.getMessage());
         }
     }
@@ -185,7 +185,7 @@ public class BinaryNumberTester {
             BinaryNumber num = new BinaryNumber("10");
             System.out.println("Attempting division by zero...");
             num.divide(zero);
-        } catch (ArithmeticException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("Caught expected exception: " + e.getMessage());
         }
 
@@ -294,7 +294,7 @@ public class BinaryNumberTester {
                 } else {
                     System.out.println("Skipping toInt() test - number outside int range");
                 }
-            } catch (NumberFormatException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println("Skipping toInt() test - number too large for long");
             }
 
