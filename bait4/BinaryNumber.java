@@ -322,12 +322,8 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (!isLegal()) {
             throw new IllegalArgumentException("Illegal Number");
         }
-        if (this.length() == 1) {
-            return "0";
-        }
-        String absStr = (this.signum() == -1) ? this.negate().toString() : this.toString();
-        String absStrWithoutFirstBit = absStr.substring(1, absStr.length());
-        String res = binaryToDecimal(absStrWithoutFirstBit);
+        BinaryNumber absBinary = (this.signum() == -1) ? this.negate() : this;
+        String res = binaryToDecimal(absBinary);
         if (this.signum() == -1) {
             res = "-" + res;
         }
@@ -420,24 +416,39 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         }
     }
 
-    // Converts a binary string to decimal string
-    private static String binaryToDecimal(String s) {
-        // Base case: single digit
-        if (s.length() == 1) {
-            return s;
+    private static String binaryToDecimal(BinaryNumber s) {
+        Iterator<Bit> iterator = s.rep.descendingIterator();
+        String res = "0";
+        while (iterator.hasNext()) {
+            res = decimalDouble(res);
+            Bit bit = iterator.next();
+            if (bit == Bit.ONE) {
+                res = decimalIncrement(res);
+            }
+
         }
-
-        // Get all bits except the last one
-        String allButLast = s.substring(0, s.length() - 1);
-
-        // Convert prefix to decimal and double it
-        String result = decimalDouble(binaryToDecimal(allButLast));
-
-        // Add 1 if last bit is 1
-        if (s.charAt(s.length() - 1) == '1') {
-            result = decimalIncrement(result);
-        }
-
-        return result;
+        return res;
     }
+
+    // Converts a binary string to decimal string
+    // private static String binaryToDecimal(BinaryNumber s) {
+    // // Base case: single digit
+    // if (s.length() == 1) {
+    // return s.toString();
+    // }
+
+    // // Get all bits except the last one
+    // String allButLast = s.substring(0, s.length() - 1);
+    // BinaryNumber allButLastBinary = new BinaryNumber(s);
+
+    // // Convert prefix to decimal and double it
+    // String result = decimalDouble(binaryToDecimal(allButLast));
+
+    // // Add 1 if last bit is 1
+    // if (s.charAt(s.length() - 1) == '1') {
+    // result = decimalIncrement(result);
+    // }
+
+    // return result;
+    // }
 }
