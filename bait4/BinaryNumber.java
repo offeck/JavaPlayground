@@ -231,7 +231,17 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (other == null || !(other instanceof BinaryNumber)) {
             return false;
         }
-        return this.toString().equals(((BinaryNumber) other).toString());
+        Iterator<Bit> thisIterator = this.rep.iterator();
+        Iterator<Bit> otherIterator = ((BinaryNumber) other).rep.iterator();
+        while (thisIterator.hasNext() && otherIterator.hasNext()) {
+            if (thisIterator.next() != otherIterator.next()) {
+                return false;
+            }
+        }
+        if (thisIterator.hasNext() || otherIterator.hasNext()) {
+            return false;
+        }
+        return true;
     }
 
     // Task 2.8
