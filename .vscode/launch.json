@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MixedTypeArray",
+      "request": "launch",
+      "mainClass": "MixedTypeArray",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
       "name": "BinaryRepresentationTester",
       "request": "launch",
       "mainClass": "BinaryRepresentationTester",
