@@ -43,20 +43,18 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     // negative
     // Initializes a BinaryNumber representing the number described in s
     public BinaryNumber(String s) {
-        int power = 1;
-        // this.rep = (new BinaryNumber(0)).rep;
+        BinaryNumber power = new BinaryNumber(1);
         BinaryNumber temp = new BinaryNumber(0);
         for (int i = s.length() - 1; i > -1; i--) {
             if (s.charAt(i) == '-') {
                 temp = temp.negate();
                 continue;
             }
-            BinaryNumber powerAsBinary = new BinaryNumber(power);
             int digit = charToInt(s.charAt(i));
             BinaryNumber digitAsBinary = new BinaryNumber(digit);
-            BinaryNumber multiplication = powerAsBinary.multiply(digitAsBinary);
+            BinaryNumber multiplication = power.multiply(digitAsBinary);
             temp = temp.add(multiplication);
-            power *= 10;
+            power = power.multiply(new BinaryNumber(10));
         }
         this.rep = temp.rep;
     }
@@ -171,6 +169,9 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (other == null) {
             throw new IllegalArgumentException("Other cannot be null");
         }
+        if (other.equals(new BinaryNumber(0))) {
+            throw new IllegalArgumentException("Division by zero");
+        }
         int signum = this.signum() * other.signum();
         BinaryNumber thisPositive = (this.signum() == -1) ? this.negate() : this;
         BinaryNumber otherPositive = (other.signum() == -1) ? other.negate() : other;
@@ -181,23 +182,35 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         return res;
     }
 
+    // Helper method for division of positive numbers
+    // Implements long division algorithm in binary
     private BinaryNumber dividePositive(BinaryNumber denominator) {
+        // Initialize result and working numerator
         BinaryNumber numerator = new BinaryNumber(0);
-        BinaryNumber res = new BinaryNumber(0);
+        BinaryNumber result = new BinaryNumber(0);
+
+        // Process bits from most significant to least significant
         Iterator<Bit> thisIterator = this.rep.descendingIterator();
+
         while (thisIterator.hasNext()) {
-            Bit bit = thisIterator.next();
-            numerator.rep.addFirst(bit);
+            // Get next bit and add it to current numerator
+            Bit currentBit = thisIterator.next();
+            numerator.rep.addFirst(currentBit);
             numerator.rep.reduce();
+
+            // If numerator >= denominator, subtract and add 1 to result
             if (numerator.compareTo(denominator) >= 0) {
                 numerator = numerator.subtract(denominator);
-                res.rep.addFirst(Bit.ONE);
+                result.rep.addFirst(Bit.ONE);
             } else {
-                res.rep.addFirst(Bit.ZERO);
+                // Otherwise, add 0 to result
+                result.rep.addFirst(Bit.ZERO);
             }
         }
-        res.rep.reduce();
-        return res;
+
+        // Ensure result is in minimal form
+        result.rep.reduce();
+        return result;
     }
 
     // Task 2.2
@@ -267,14 +280,12 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
             Bit bit = iterator.next();
             if (bit == Bit.ONE) {
                 // Check for overflow before adding
-                // power > 30 would cause 1 << power to overflow
-                // Also check if adding 2^power would overflow result
-                if (power > 30 || result > Integer.MAX_VALUE - (1 << power)) {
-                    throw new RuntimeException("Number too large to be represented as int");
+                // power > 30 would cause 2^power to overflow
+                if (power > 30 || result > Integer.MAX_VALUE - (int) Math.pow(2, power)) {
+                    throw new IllegalArgumentException("Number too large to be represented as int");
                 }
                 // Add 2^power to result when we see a 1 bit
-                // 1 << power is equivalent to 2^power
-                result += (1 << power);
+                result += (int) Math.pow(2, power);
             }
             power++; // Track which power of 2 we're at
         }
@@ -285,7 +296,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
                 return result;
             }
             if (result > Integer.MAX_VALUE) {
-                throw new RuntimeException("Number too small to be represented as int");
+                throw new IllegalArgumentException("Number too small to be represented as int");
             }
             result = -result;
         }
@@ -301,11 +312,16 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         if (!isLegal()) {
             throw new IllegalArgumentException("Illegal Number");
         }
-        if (this.signum() == -1) {
-
-            return "-" + binaryToDecimal(this.negate().toString());
+        if (this.length() == 1) {
+            return "0";
         }
-        return binaryToDecimal(this.toString());
+        String absStr = (this.signum() == -1) ? this.negate().toString() : this.toString();
+        String absStrWithoutFirstBit = absStr.substring(1, absStr.length());
+        String res = binaryToDecimal(absStrWithoutFirstBit);
+        if (this.signum() == -1) {
+            res = "-" + res;
+        }
+        return res;
     }
 
     /*
@@ -340,94 +356,78 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
         return res;
     }
 
+    // Helper methods for decimal-binary conversion
     private static int charToInt(char c) {
         return c - '0';
     }
 
-    // Task 1.2
-    // 's' is a string representing a valid decimal number.
-    // Increments the number represented by 's' by 1 and returns the result as a
-    // string.
+    // Recursively increments a decimal string by 1
     private static String decimalIncrement(String s) {
-        String ans = "";
-        // ---------------write your code BELOW this line only! ------------------
-        int carry = 1;
-        ans = decimalIncrement(s, carry);
-        // ---------------write your code ABOVE this line only! ------------------
-        return ans;
+        return decimalIncrement(s, 1);
     }
 
-    // Task 1.2
-    // 's' is a string representing a valid decimal number, 0<='carry'<=1.
-    // Increments the number represented by 's' by 'carry'.
+    // Helper method for decimal increment with carry
     private static String decimalIncrement(String s, int carry) {
-        String ans = "";
-        // ---------------write your code BELOW this line only! ------------------
+        // Base case: empty string
         if (s.length() == 0) {
-            if (carry == 1) {
-                ans = "1";
-            } else {
-                ans = "";
-            }
-        } else if (charToInt(s.charAt(0)) + carry > 9) {
-            ans = "0" + decimalIncrement(s.substring(1), 1);
-        } else {
-            ans = charToInt(s.charAt(0)) + carry + decimalIncrement(s.substring(1), 0);
+            return carry == 1 ? "1" : "";
         }
-        // ---------------write your code ABOVE this line only! ------------------
-        return ans;
+
+        // Get last digit
+        int lastDigit = charToInt(s.charAt(s.length() - 1));
+
+        // If adding carry creates overflow
+        if (lastDigit + carry > 9) {
+            // Recursively handle carry and append 0
+            return decimalIncrement(s.substring(0, s.length() - 1), 1) + "0";
+        } else {
+            // No carry, just add and return
+            return s.substring(0, s.length() - 1) + (carry + lastDigit);
+        }
     }
 
-    // Task 1.3
-    // 's' is a string representing a valid decimal number.
-    // Doubles the decimal number represented by 's' and returns the result as a
-    // string.
+    // Doubles a decimal string
     private static String decimalDouble(String s) {
-        String ans = "";
-        // ---------------write your code BELOW this line only! ------------------
-        int carry = 0;
-        ans = decimalDouble(s, carry);
-
-        // ---------------write your code ABOVE this line only! ------------------
-        return ans;
+        return decimalDouble(s, 0);
     }
 
-    // Task 1.3
-    // 's' is a string representing a valid decimal number, 0<='carry'<=1
-    // Doubles the decimal number represented by 's', and adds to it the 'carry'
+    // Helper method for decimal doubling with carry
     private static String decimalDouble(String s, int carry) {
-        String ans = "";
-        // ---------------write your code BELOW this line only! ------------------
+        // Base case: empty string
         if (s.length() == 0) {
-            if (carry == 1) {
-                return "1";
-            }
-            return "";
+            return carry == 1 ? "1" : "";
         }
-        int mul = (charToInt(s.charAt(0)) * 2);
-        if (mul + carry > 9) {
-            ans = ((mul + carry) % 10) + decimalDouble(s.substring(1), 1);
+
+        // Get last digit and multiply by 2
+        int lastDigit = charToInt(s.charAt(s.length() - 1));
+        int product = lastDigit * 2 + carry;
+
+        // Handle carry for next recursion
+        if (product > 9) {
+            return decimalDouble(s.substring(0, s.length() - 1), 1) + (product % 10);
         } else {
-            ans = (mul + carry) + decimalDouble(s.substring(1), 0);
+            return decimalDouble(s.substring(0, s.length() - 1), 0) + product;
         }
-        // ---------------write your code ABOVE this line only! ------------------
-        return ans;
     }
 
-    // Task 1.4
-    // 's' is a string representing a valid binary number.
-    // Converts a binary string 's' to its decimal string representation.
+    // Converts a binary string to decimal string
     private static String binaryToDecimal(String s) {
-        String ans = "";
-        // ---------------write your code BELOW this line only! ------------------
+        // Base case: single digit
         if (s.length() == 1) {
             return s;
         }
-        ans = decimalDouble(binaryToDecimal(s.substring(1)));
-        if (s.charAt(0) == '1') {
-            ans = decimalIncrement(ans);
+
+        // Get all bits except the last one
+        String allButLast = s.substring(0, s.length() - 1);
+
+        // Convert prefix to decimal and double it
+        String result = decimalDouble(binaryToDecimal(allButLast));
+
+        // Add 1 if last bit is 1
+        if (s.charAt(s.length() - 1) == '1') {
+            result = decimalIncrement(result);
         }
-        // ---------------write your code ABOVE this line only! ------------------
-        return ans;
+
+        return result;
     }
 }

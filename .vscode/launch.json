@@ -6,10 +6,10 @@
   "configurations": [
     {
       "type": "java",
-      "name": "MixedTypeArray",
+      "name": "TestDecimalNumber",
       "request": "launch",
-      "mainClass": "MixedTypeArray",
-      "projectName": "JavaPlayground_9d4334c"
+      "mainClass": "TestDecimalNumber",
+      "projectName": "JavaPlayground_74a3affa"
     },
     {
       "type": "java",
