@@ -64,32 +64,49 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
     // Returns a new BinaryNumber containing the result of the addition of other to
     // this (i.e. this + other)
     public BinaryNumber add(BinaryNumber other) {
+        // Validate input
         if (other == null) {
             throw new IllegalArgumentException("Other cannot be null");
         }
-        int maxLength = Math.max(this.length(), other.length());
-        BinaryNumber this2 = new BinaryNumber(this);
-        BinaryNumber other2 = new BinaryNumber(other);
-        this2.rep.padding(maxLength);
-        other2.rep.padding(maxLength);
-        Iterator<Bit> thisIterator = this2.rep.iterator();
-        Iterator<Bit> otherIterator = other2.rep.iterator();
-        BinaryNumber res = new BinaryNumber(0);
-        res.rep.shiftRight();
 
+        // Create copies and pad to same length for addition
+        int maxLength = Math.max(this.length(), other.length());
+        BinaryNumber augend = new BinaryNumber(this);
+        BinaryNumber addend = new BinaryNumber(other);
+        augend.rep.padding(maxLength);
+        addend.rep.padding(maxLength);
+
+        // Set up iterators and result
+        Iterator<Bit> augendIterator = augend.rep.iterator();
+        Iterator<Bit> addendIterator = addend.rep.iterator();
+        BinaryNumber result = new BinaryNumber(0);
+        result.rep.shiftRight(); // Remove initial 0
+
+        // Perform addition with carry
         Bit carry = Bit.ZERO;
-        while (thisIterator.hasNext() && otherIterator.hasNext()) {
-            Bit bit1 = thisIterator.next();
-            Bit bit2 = otherIterator.next();
-            Bit sum = Bit.fullAdderSum(bit1, bit2, carry);
-            carry = Bit.fullAdderCarry(bit1, bit2, carry);
-            res.rep.addLast(sum);
+        Bit lastAugendBit = null;
+        Bit lastAddendBit = null;
+
+        while (augendIterator.hasNext() && addendIterator.hasNext()) {
+            Bit augendBit = augendIterator.next();
+            Bit addendBit = addendIterator.next();
+            
+            // Calculate sum and carry using full adder
+            Bit sum = Bit.fullAdderSum(augendBit, addendBit, carry);
+            carry = Bit.fullAdderCarry(augendBit, addendBit, carry);
+            
+            result.rep.addLast(sum);
+            lastAugendBit = augendBit;
+            lastAddendBit = addendBit;
         }
-        if (other2.rep.getLast() == this2.rep.getLast()) {
-            res.rep.addLast(carry);
+
+        // Add final carry bit if both numbers had same sign
+        if (lastAugendBit == lastAddendBit) {
+            result.rep.addLast(carry);
         }
-        res.rep.reduce();
-        return res;
+
+        result.rep.reduce();
+        return result;
     }
 
     // Task 2.5

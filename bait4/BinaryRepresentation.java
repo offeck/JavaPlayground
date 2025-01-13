@@ -15,6 +15,9 @@ public class BinaryRepresentation implements Iterable<Bit> {
     // Assumes other is a non-null BinaryRepresentation
     // Creates a copy of the other
     public BinaryRepresentation(BinaryRepresentation other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Other cannot be null");
+        }
         this.bits = new LinkedList<>();
         for (Bit bit : other.bits) {
             this.bits.add(bit);
@@ -170,8 +173,8 @@ public class BinaryRepresentation implements Iterable<Bit> {
     // by adding the last Bit of the representation until reaching the desired
     // length
     public void padding(int newLength) {
+        Bit last = getLast();
         while (bits.size() < newLength) {
-            Bit last = getLast();
             addLast(last);
         }
     }
