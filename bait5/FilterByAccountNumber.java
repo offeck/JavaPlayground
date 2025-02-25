@@ -1,11 +1,14 @@
 
 public class FilterByAccountNumber implements Filter<BankAccount> {
-    
-    public FilterByAccountNumber(int minAccountNum, int maxAccountNum) {
-        throw new UnsupportedOperationException("Remove this line");
-    }
+	private int minAccountNum;
+	private int maxAccountNum;
 
-    public boolean accept(BankAccount element) {
-        throw new UnsupportedOperationException("Remove this line");
-    }
+	public FilterByAccountNumber(int minAccountNum, int maxAccountNum) {
+		this.minAccountNum = minAccountNum;
+		this.maxAccountNum = maxAccountNum;
+	}
+
+	public boolean accept(BankAccount element) {
+		return element.getAccountNumber() >= this.minAccountNum && element.getAccountNumber() <= this.maxAccountNum;
+	}
 }

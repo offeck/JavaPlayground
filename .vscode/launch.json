@@ -6,6 +6,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "TestBank",
+      "request": "launch",
+      "mainClass": "TestBank",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "TestBankAccountFiltering",
+      "request": "launch",
+      "mainClass": "TestBankAccountFiltering",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "TestBalance",
+      "request": "launch",
+      "mainClass": "TestBalance",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
       "name": "TestToString",
       "request": "launch",
       "mainClass": "TestToString",

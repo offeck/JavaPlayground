@@ -82,7 +82,7 @@ public class TestToString {
     tree.root.right.right = new BinaryNode<>(6);
     tree.root.left.right.left = new BinaryNode<>(7);
 
-    String expected = "tree((2,(7,4)),1,((5),3,(6)))";
+    String expected = "tree((2,((7),4)),1,((5),3,(6)))";
     String result = tree.toString();
     printTestResult("Complex Tree", result.equals(expected));
   }
