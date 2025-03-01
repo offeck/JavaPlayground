@@ -6,6 +6,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Question3",
+      "request": "launch",
+      "mainClass": "Question3",
+      "projectName": "JavaPlayground_74a3affa"
+    },
+    {
+      "type": "java",
+      "name": "test",
+      "request": "launch",
+      "mainClass": "test",
+      "projectName": "JavaPlayground_74a3affa"
+    },
+    {
+      "type": "java",
+      "name": "Fib",
+      "request": "launch",
+      "mainClass": "Fib",
+      "projectName": "JavaPlayground_74a3affa"
+    },
+    {
+      "type": "java",
       "name": "TestDecimalNumber",
       "request": "launch",
       "mainClass": "TestDecimalNumber",
