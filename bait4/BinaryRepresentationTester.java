@@ -67,11 +67,32 @@ public class BinaryRepresentationTester {
         }
         System.out.println("Empty representation test passed");
 
-        // Test with some bits
+        // Test sequential addFirst operations
+        br = new BinaryRepresentation();
+        System.out.println("\nTesting sequential addFirst operations:");
+        System.out.println("Initial state: " + br.toString()); // <>
+
+        br.addFirst(Bit.ZERO);
+        System.out.println("After first ZERO: " + br.toString()); // <0>
+
+        br.addFirst(Bit.ZERO);
+        System.out.println("After second ZERO: " + br.toString()); // <00>
+
+        br.addFirst(Bit.ONE);
+        System.out.println("After adding ONE: " + br.toString()); // <001>
+
+        if (!br.toString().equals("<001>")) {
+            System.out.println("Failed: Expected <001>, got " + br.toString());
+            return false;
+        }
+        System.out.println("Sequential addFirst test passed");
+
+        // Test with some bits (original test case)
+        br = new BinaryRepresentation();
         br.addLast(Bit.ONE);
         br.addLast(Bit.ZERO);
         br.addLast(Bit.ONE);
-        System.out.println("Testing representation with bits: " + br.toString());
+        System.out.println("\nTesting representation with addLast: " + br.toString());
         if (!br.toString().equals("<101>")) {
             System.out.println("Failed: Expected <101>, got " + br.toString());
             return false;
@@ -412,6 +433,23 @@ public class BinaryRepresentationTester {
         }
         System.out.println("Double complement test passed");
 
+        // Test case 6: Sequential addition then complement
+        br = new BinaryRepresentation();
+        br.addFirst(Bit.ZERO); // <0>
+        br.addFirst(Bit.ZERO); // <00>
+        br.addFirst(Bit.ONE); // <100>
+        System.out.println("\nTesting sequential addition then complement:");
+        System.out.println("After additions: " + br.toString());
+        String beforeComplement = br.toString();
+        br.complement();
+        System.out.println("After complement: " + br.toString());
+        if (!br.toString().equals("<110>")) {
+            System.out.println("Failed: Expected <110>, got " + br.toString());
+            System.out.println("Original was: " + beforeComplement);
+            return false;
+        }
+        System.out.println("Sequential addition then complement test passed");
+
         return true;
     }
 
@@ -464,15 +502,15 @@ public class BinaryRepresentationTester {
         System.out.println("Starting Binary Representation Tests");
         System.out.println("=================================");
 
-        // printTestResult("Add/Remove Operations (Task 1.1)",
-        // testAddRemoveOperations());
-        // printTestResult("ToString (Task 1.2)", testToString());
-        // printTestResult("Copy Constructor (Task 1.3)", testCopyConstructor());
-        // printTestResult("Legal Number (Task 1.4)", testIsLegalNumber());
-        // printTestResult("Reduced Operations (Task 1.5)", testReducedOperations());
+        printTestResult("Add/Remove Operations (Task 1.1)",
+                testAddRemoveOperations());
+        printTestResult("ToString (Task 1.2)", testToString());
+        printTestResult("Copy Constructor (Task 1.3)", testCopyConstructor());
+        printTestResult("Legal Number (Task 1.4)", testIsLegalNumber());
+        printTestResult("Reduced Operations (Task 1.5)", testReducedOperations());
         printTestResult("Complement (Task 1.6)", testComplement());
-        // printTestResult("Shift Operations (Task 1.7)", testShiftOperations());
-        // printTestResult("Padding (Task 1.8)", testPadding());
+        printTestResult("Shift Operations (Task 1.7)", testShiftOperations());
+        printTestResult("Padding (Task 1.8)", testPadding());
 
         System.out.println("=================================");
         System.out.println("All tests completed");

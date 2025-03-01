@@ -6,24 +6,31 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Question3",
+      "name": "TestBank",
       "request": "launch",
-      "mainClass": "Question3",
-      "projectName": "JavaPlayground_74a3affa"
+      "mainClass": "TestBank",
+      "projectName": "JavaPlayground_9d4334c"
     },
     {
       "type": "java",
-      "name": "test",
+      "name": "TestBankAccountFiltering",
       "request": "launch",
-      "mainClass": "test",
-      "projectName": "JavaPlayground_74a3affa"
+      "mainClass": "TestBankAccountFiltering",
+      "projectName": "JavaPlayground_9d4334c"
     },
     {
       "type": "java",
-      "name": "Fib",
+      "name": "TestBalance",
       "request": "launch",
-      "mainClass": "Fib",
-      "projectName": "JavaPlayground_74a3affa"
+      "mainClass": "TestBalance",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
+      "name": "TestToString",
+      "request": "launch",
+      "mainClass": "TestToString",
+      "projectName": "JavaPlayground_9d4334c"
     },
     {
       "type": "java",

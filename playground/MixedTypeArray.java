@@ -273,8 +273,5 @@ public class MixedTypeArray<T1, T2> {
             Object element = array.get(i);
 
         }
-        Comparator i = new Comparator<T>() {
-
-        };
     }
 }

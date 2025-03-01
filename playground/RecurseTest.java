@@ -1,7 +1,19 @@
 public class RecurseTest {
     public static void main(String[] args) {
-        // Record o1 = new Record("John", 123);
-        // System.out.println(o1.equals(o1));
+        System.out.println(change(new int[] { 1, 2, 3, 5 }, 23, 0));
+    }
+
+    public static int change(int[] weights, int n, int i) {
+        if (n == 0) {
+            return 1;
+        }
+        if (i >= weights.length) {
+            return 0;
+        }
+        if (n < 0) {
+            return 0;
+        }
+        return change(weights, n - weights[i], i) + change(weights, n, i + 1);
     }
 
     public static boolean ss(int[] weights, int sum, int i) {
