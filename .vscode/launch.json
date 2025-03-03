@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Q2",
+      "request": "launch",
+      "mainClass": "Q2",
+      "projectName": "JavaPlayground_9d4334c"
+    },
+    {
+      "type": "java",
       "name": "TestBank",
       "request": "launch",
       "mainClass": "TestBank",
